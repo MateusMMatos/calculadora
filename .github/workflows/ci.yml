@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, dev]
+    branches: [ main ]
   pull_request:
-    branches: [main, dev]
+    branches: [ main ]
 
 jobs:
   build-and-test:
@@ -15,19 +15,22 @@ jobs:
         working-directory: apps/api
 
     steps:
-      - name: Checkout do código
+      - name: ⬇️ Checkout do código
         uses: actions/checkout@v3
 
-      - name: Instalar Node.js
+      - name: 🟢 Instalar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: 20
 
-      - name: Instalar dependências
+      - name: 📦 Instalar dependências
         run: npm ci
 
-      - name: Rodar testes
-        run: npm run test
+      - name: ✅ Rodar lint
+        run: npm run lint
 
-      - name: Build (validação opcional)
+      - name: 🧪 Rodar testes (com cobertura)
+        run: npm run test -- --coverage
+
+      - name: 🛠️ Build
         run: npm run build
