@@ -1,36 +1,33 @@
-name: CI
+name: CI - Testes da Calculadora ✅ # <-- Esse é o nome que aparecerá no GitHub como "CI - Testes da Calculadora"
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  build-and-test:
+  testes-unitarios:
+    name: Testes com Jest 🧪 # <-- Esse é o nome que aparecerá como "Testes com Jest 🧪"
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: apps/api
-
     steps:
-      - name: ⬇️ Checkout do código
+      - name: Clonar repositório
         uses: actions/checkout@v3
 
-      - name: 🟢 Instalar Node.js
+      - name: Instalar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: '20'
 
-      - name: 📦 Instalar dependências
+      - name: Instalar dependências
         run: npm ci
 
-      - name: ✅ Rodar lint
+      - name: Rodar Lint
         run: npm run lint
 
-      - name: 🧪 Rodar testes (com cobertura)
-        run: npm run test -- --coverage
+      - name: Rodar Testes
+        run: npm run test
 
-      - name: 🛠️ Build
+      - name: Verificar build
         run: npm run build
