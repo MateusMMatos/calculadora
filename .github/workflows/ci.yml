@@ -1,4 +1,4 @@
-name: CI - Testes da Calculadora ✅ # <-- Esse é o nome que aparecerá no GitHub como "CI - Testes da Calculadora"
+name: CI - Pipeline da Calculadora
 
 on:
   push:
@@ -7,12 +7,12 @@ on:
     branches: [main]
 
 jobs:
-  testes-unitarios:
-    name: Testes com Jest 🧪 # <-- Esse é o nome que aparecerá como "Testes com Jest 🧪"
+  lint:
+    name: "Verificação de Lint"
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clonar repositório
+      - name: Checkout do repositório
         uses: actions/checkout@v3
 
       - name: Instalar Node.js
@@ -23,11 +23,43 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      - name: Rodar Lint
+      - name: Rodar lint
         run: npm run lint
 
-      - name: Rodar Testes
+  test:
+    name: "Testes com Jest"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Rodar testes unitários
         run: npm run test
 
-      - name: Verificar build
+  build:
+    name: "Build da API"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Compilar aplicação
         run: npm run build
